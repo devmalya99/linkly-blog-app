@@ -1,0 +1,5 @@
+export const COMMENT_LIMITS = {
+  CONTENT_MAX: 3000,
+  LIST_DEFAULT: 5,
+  LIST_MAX: 50,
+}
