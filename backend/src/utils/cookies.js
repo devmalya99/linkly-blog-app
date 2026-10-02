@@ -32,12 +32,24 @@ export function createOpaqueToken() {
   return randomBytes(48).toString('base64url')
 }
 
-// 📌 Sets the refresh cookie options.
+// Cross-origin SPA (Netlify) + API (Render) needs SameSite=None; Secure.
+// Localhost same-site/dev keeps Lax without Secure.
+function isCrossOriginFrontend() {
+  try {
+    const frontendHost = new URL(env.FRONTEND_URL).hostname
+    return frontendHost !== 'localhost' && frontendHost !== '127.0.0.1'
+  } catch {
+    return env.NODE_ENV === 'production'
+  }
+}
+
 export function getRefreshCookieOptions() {
+  const crossOrigin = isCrossOriginFrontend()
+
   return {
     httpOnly: true,
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: env.NODE_ENV === 'production' || crossOrigin,
+    sameSite: crossOrigin ? 'none' : 'lax',
     path: '/api/v1/auth',
     maxAge: parseDurationToMs(env.JWT_REFRESH_EXPIRES_IN),
   }
@@ -48,12 +60,7 @@ export function setRefreshCookie(res, token) {
 }
 
 export function clearRefreshCookie(res) {
-  res.clearCookie(REFRESH_COOKIE_NAME, {
-    httpOnly: true,
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/api/v1/auth',
-  })
+  res.clearCookie(REFRESH_COOKIE_NAME, getRefreshCookieOptions())
 }
 
 export function readRefreshCookie(req) {
