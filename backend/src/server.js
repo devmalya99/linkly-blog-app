@@ -1,7 +1,9 @@
 // 📌 Load the Express app, the Mongo connection helpers, and validated environment values.
+import { createServer } from 'node:http'
 import app from './app.js'
 import { connectDatabase, disconnectDatabase } from './config/database.js'
 import { env } from './config/env.js'
+import { initSocket } from './socket/index.js'
 
 // 📌 Holds the HTTP server so shutdown can close it after startup finishes.
 let server
@@ -9,7 +11,9 @@ let server
 // 📌 Connect to MongoDB first, then start accepting requests on PORT.
 async function start() {
   await connectDatabase()
-  server = app.listen(env.PORT, () => {
+  server = createServer(app)
+  initSocket(server)
+  server.listen(env.PORT, () => {
     console.info(`Inkly API listening on port ${env.PORT}`)
   })
 }

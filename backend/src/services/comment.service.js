@@ -4,6 +4,7 @@ import { POST_STATUS } from '../constants/posts.js'
 import { ROLES } from '../constants/roles.js'
 import { Comment } from '../models/Comment.js'
 import { Post } from '../models/Post.js'
+import { notificationService } from './notification.service.js'
 import { sanitizeComment, sanitizeRecentComment } from '../utils/sanitize.js'
 
 const AUTHOR_SELECT = 'name email avatar role'
@@ -30,7 +31,7 @@ function canDeleteComment(user, comment, post) {
 }
 
 async function findCommentablePost(postId) {
-  const post = await Post.findById(postId).select('_id author status isDeleted')
+  const post = await Post.findById(postId).select('_id author status isDeleted title')
 
   if (!post || post.isDeleted) {
     throw new AppError('Post not found', HTTP_STATUS.NOT_FOUND)
@@ -116,6 +117,15 @@ export const commentService = {
     })
 
     await comment.populate('author', AUTHOR_SELECT)
+
+    await notificationService.notifyPostComment({
+      recipientId: getPostAuthorId(post),
+      actorId: user.id,
+      postId: post._id,
+      commentId: comment._id,
+      postTitle: post.title,
+      actor: comment.author,
+    })
 
     return sanitizeComment(comment)
   },

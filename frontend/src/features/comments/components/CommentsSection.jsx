@@ -27,7 +27,11 @@ export function CommentsSection({ post }) {
 
   if (!isAuthenticated) {
     return (
-      <section className="mt-14 border-t border-border-subtle pt-10" aria-labelledby="comments-heading">
+      <section
+        className="mt-14 border-t border-border-subtle pt-10"
+        aria-labelledby="comments-heading"
+        id="comments"
+      >
         <h2 className="font-title-md text-title-md text-text-primary" id="comments-heading">
           {COMMENT_COPY.TITLE}
         </h2>
@@ -40,7 +44,11 @@ export function CommentsSection({ post }) {
 
   if (!isPublished) {
     return (
-      <section className="mt-14 border-t border-border-subtle pt-10" aria-labelledby="comments-heading">
+      <section
+        className="mt-14 border-t border-border-subtle pt-10"
+        aria-labelledby="comments-heading"
+        id="comments"
+      >
         <h2 className="font-title-md text-title-md text-text-primary" id="comments-heading">
           {COMMENT_COPY.TITLE}
         </h2>
@@ -58,7 +66,11 @@ export function CommentsSection({ post }) {
   }
 
   return (
-    <section className="mt-14 border-t border-border-subtle pt-10" aria-labelledby="comments-heading">
+    <section
+      className="mt-14 border-t border-border-subtle pt-10"
+      aria-labelledby="comments-heading"
+      id="comments"
+    >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="font-title-md text-title-md text-text-primary" id="comments-heading">
           {COMMENT_COPY.TITLE}
