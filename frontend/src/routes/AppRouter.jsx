@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import { AdminDashboard, AdminPosts, AdminUserDetail, AdminUsers } from '../features/admin'
 import { AuthCallback } from '../features/auth'
 import { Dashboard } from '../features/dashboard'
+import { Feed } from '../features/feed'
 import {
   CreatePost,
   EditPost,
@@ -27,6 +28,14 @@ export function AppRouter() {
       <Route path={ROUTES.PUBLIC_POSTS} element={<PublicPosts />} />
       <Route path={ROUTES.POST_DETAIL} element={<PostDetail />} />
       <Route path={ROUTES.SHARE_POST} element={<SharedPost />} />
+      <Route
+        path={ROUTES.FEED}
+        element={
+          <RequireAuth>
+            <Feed />
+          </RequireAuth>
+        }
+      />
       <Route
         path={ROUTES.DASHBOARD}
         element={

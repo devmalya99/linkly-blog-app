@@ -4,6 +4,9 @@ import { ROUTES } from '../../../utils/constants'
 import { ADMIN_SIDEBAR_NAV, SIDEBAR_NAV } from '../constants/dashboardContent'
 
 function isNavActive(pathname, to) {
+  if (to === ROUTES.FEED) {
+    return pathname === ROUTES.FEED || pathname.startsWith(`${ROUTES.FEED}?`)
+  }
   if (to === ROUTES.MY_POSTS) {
     return pathname.startsWith(ROUTES.MY_POSTS)
   }

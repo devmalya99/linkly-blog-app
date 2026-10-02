@@ -30,11 +30,11 @@ export const DASHBOARD_STATS = [
   {
     id: 'comments',
     label: 'Comments',
-    value: '142',
+    value: '0',
     icon: 'chat_bubble_outline',
     iconTone: 'brand',
-    meta: { type: 'badge', tone: 'brand', text: '+12 new' },
-    footer: { type: 'text', text: 'Across all articles' },
+    meta: { type: 'badge', tone: 'brand', text: '0 new' },
+    footer: { type: 'text', text: 'On your posts' },
   },
 ]
 
@@ -81,43 +81,8 @@ export const RECENT_POSTS = [
   },
 ]
 
-export const RECENT_COMMENTS = [
-  {
-    id: '1',
-    quote:
-      'Really useful explanation of server component caching boundaries. Cleared up a lot of misconceptions.',
-    author: 'Johnathan Miller',
-    initials: 'JM',
-    time: '2 hours ago',
-    post: 'Understanding Modern React Architecture',
-  },
-  {
-    id: '2',
-    quote:
-      'Would love to see a follow-up detailing database connection pooling in multi-tenant environments.',
-    author: 'Sarah Jenkins',
-    initials: 'SJ',
-    time: 'Yesterday',
-    post: 'Building Distributed Node.js APIs',
-  },
-  {
-    id: '3',
-    quote:
-      'The spatial grid diagram on 8-pixel rhythm was spot on. Sharing this with our frontend team!',
-    author: 'Marcus Thorne',
-    initials: 'MT',
-    time: '3 days ago',
-    post: 'The 8-Pixel Rhythm and Spatial Cohesion',
-  },
-]
-
-export const WEEKLY_READERS = {
-  visitors: '3,842',
-  growth: '14.8%',
-  bars: [42, 58, 51, 73, 66, 88, 79],
-}
-
 export const SIDEBAR_NAV = [
+  { id: 'home', label: 'Home', icon: 'home', to: ROUTES.FEED },
   { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', to: ROUTES.DASHBOARD },
   { id: 'posts', label: 'My Posts', icon: 'article', to: ROUTES.MY_POSTS },
   { id: 'create', label: 'Create Post', icon: 'add_circle', to: ROUTES.CREATE_POST },

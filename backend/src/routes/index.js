@@ -6,6 +6,8 @@ import commentRoutes from './comment.routes.js'
 import adminRoutes from './admin.routes.js'
 import shareRoutes from './share.routes.js'
 import uploadRoutes from './upload.routes.js'
+import followRoutes from './follow.routes.js'
+import feedRoutes from './feed.routes.js'
 import { sendSuccess } from '../utils/response.js'
 
 const router = Router()
@@ -18,6 +20,8 @@ router.use('/auth', authRoutes)
 router.use('/users', userRoutes)
 router.use('/posts', postRoutes)
 router.use('/comments', commentRoutes)
+router.use('/follows', followRoutes)
+router.use('/feed', feedRoutes)
 router.use('/admin', adminRoutes)
 router.use('/share', shareRoutes)
 router.use('/uploads', uploadRoutes)

@@ -1,5 +1,5 @@
 export { commentsKeys } from './commentsKeys'
-export { commentsQueryOptions } from './commentsQueries'
+export { commentsQueryOptions, recentCommentsQueryOptions } from './commentsQueries'
 export {
   createCommentMutationOptions,
   deleteCommentMutationOptions,

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { COMMENT_LIMITS } from '../constants/comments.js'
-import { emptyBody, emptyQuery, objectId, commentPaginationQuery } from './common.validator.js'
+import { emptyBody, emptyParams, emptyQuery, objectId, commentPaginationQuery } from './common.validator.js'
 
 const commentContent = z
   .string()
@@ -22,6 +22,21 @@ export const listCommentsSchema = z.object({
   body: emptyBody,
   params: z.object({ postId: objectId }).strict(),
   query: commentPaginationQuery,
+})
+
+export const recentCommentsSchema = z.object({
+  body: emptyBody,
+  params: emptyParams,
+  query: z
+    .object({
+      limit: z.coerce
+        .number()
+        .int()
+        .min(1)
+        .max(COMMENT_LIMITS.RECENT_MAX)
+        .default(COMMENT_LIMITS.RECENT_DEFAULT),
+    })
+    .strict(),
 })
 
 export const updateCommentSchema = z.object({

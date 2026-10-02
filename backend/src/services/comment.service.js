@@ -4,7 +4,7 @@ import { POST_STATUS } from '../constants/posts.js'
 import { ROLES } from '../constants/roles.js'
 import { Comment } from '../models/Comment.js'
 import { Post } from '../models/Post.js'
-import { sanitizeComment } from '../utils/sanitize.js'
+import { sanitizeComment, sanitizeRecentComment } from '../utils/sanitize.js'
 
 const AUTHOR_SELECT = 'name email avatar role'
 
@@ -59,6 +59,46 @@ export const commentService = {
     return {
       items: items.map(sanitizeComment),
       pagination: buildPagination({ page, limit, total }),
+    }
+  },
+
+  async getRecentCommentsForAuthor(user, query = {}) {
+    const limit = query.limit ?? COMMENT_LIMITS.RECENT_DEFAULT
+    const postIds = await Post.find({
+      author: user.id,
+      isDeleted: false,
+    }).distinct('_id')
+
+    if (postIds.length === 0) {
+      return {
+        items: [],
+        total: 0,
+        newCount: 0,
+      }
+    }
+
+    const since = new Date(
+      Date.now() - COMMENT_LIMITS.NEW_WINDOW_DAYS * 24 * 60 * 60 * 1000,
+    )
+    const filter = { post: { $in: postIds } }
+
+    const [items, total, newCount] = await Promise.all([
+      Comment.find(filter)
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .populate('author', AUTHOR_SELECT)
+        .populate('post', 'title'),
+      Comment.countDocuments(filter),
+      Comment.countDocuments({
+        ...filter,
+        createdAt: { $gte: since },
+      }),
+    ])
+
+    return {
+      items: items.map(sanitizeRecentComment),
+      total,
+      newCount,
     }
   },
 

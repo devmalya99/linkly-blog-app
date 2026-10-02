@@ -8,7 +8,6 @@ import { DashboardStats } from '../components/DashboardStats'
 import {
   RecentCommentsPanel,
   RecentPostsPanel,
-  WeeklyReadershipPanel,
 } from '../components/DashboardPanels'
 
 function greetingForHour(hour) {
@@ -77,7 +76,6 @@ export function Dashboard() {
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
               <div className="flex flex-col gap-6 xl:col-span-3">
                 <RecentPostsPanel />
-                <WeeklyReadershipPanel />
               </div>
               <div className="flex flex-col gap-6 xl:col-span-2">
                 <RecentCommentsPanel />

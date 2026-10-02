@@ -11,6 +11,15 @@ export async function getComments(req, res, next) {
   }
 }
 
+export async function getRecentComments(req, res, next) {
+  try {
+    const data = await commentService.getRecentCommentsForAuthor(req.user, req.validated.query)
+    sendSuccess(res, data, 'Recent comments fetched successfully')
+  } catch (error) {
+    next(error)
+  }
+}
+
 export async function createComment(req, res, next) {
   try {
     const data = await commentService.createComment(req.user, req.validated.params.postId, req.validated.body)

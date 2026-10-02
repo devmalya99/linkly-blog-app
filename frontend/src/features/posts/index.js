@@ -17,4 +17,6 @@ export {
   useUpdatePost,
 } from './hooks/usePosts'
 export { DeletePostConfirmModal } from './components/DeletePostConfirmModal'
+export { CoverImage } from './components/CoverImage'
 export { formatPostDate, statusLabel } from './utils/postFormat'
+export { POST_CATEGORIES } from './constants/createPostContent'

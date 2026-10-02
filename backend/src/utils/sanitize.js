@@ -88,6 +88,25 @@ export function sanitizeComment(comment) {
   }
 }
 
+/** Dashboard recent-comments payload — includes post title for display. */
+export function sanitizeRecentComment(comment) {
+  const base = sanitizeComment(comment)
+  const source = typeof comment.toObject === 'function' ? comment.toObject() : { ...comment }
+
+  let post = { id: base.post, title: '' }
+  if (source.post && typeof source.post === 'object' && (source.post._id || source.post.id)) {
+    post = {
+      id: String(source.post._id ?? source.post.id),
+      title: source.post.title ?? '',
+    }
+  }
+
+  return {
+    ...base,
+    post,
+  }
+}
+
 /** Minimal public payload for share links (draft or published). */
 export function sanitizeSharedPost(post) {
   const source = typeof post.toObject === 'function' ? post.toObject() : { ...post }

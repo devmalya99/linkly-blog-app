@@ -4,9 +4,8 @@ import { useAuth } from '../../features/auth'
 import { ROUTES } from '../../utils/constants'
 
 const NAV = [
-  { label: 'Discover', href: '#stories' },
+  { label: 'Discover', to: ROUTES.FEED },
   { label: 'Posts', to: ROUTES.PUBLIC_POSTS },
-  { label: 'About', href: '#about' },
 ]
 
 export function PublicHeader() {

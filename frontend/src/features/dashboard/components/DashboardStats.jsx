@@ -1,5 +1,6 @@
-import { DASHBOARD_STATS } from '../constants/dashboardContent'
+import { useRecentComments } from '../../comments'
 import { useMyPosts } from '../../posts'
+import { DASHBOARD_STATS } from '../constants/dashboardContent'
 
 const ICON_TONE = {
   success: 'bg-status-success/10 text-status-success',
@@ -14,7 +15,7 @@ const META_TONE = {
   warning: 'text-status-warning',
 }
 
-function buildStats(posts, pagination) {
+function buildStats(posts, pagination, { commentTotal = 0, newCount = 0 } = {}) {
   const total = pagination?.total ?? posts.length
   const published = posts.filter((post) => post.status === 'published').length
   const drafts = posts.filter((post) => post.status === 'draft').length
@@ -47,13 +48,25 @@ function buildStats(posts, pagination) {
         },
       }
     }
+    if (stat.id === 'comments') {
+      return {
+        ...stat,
+        value: String(commentTotal),
+        meta:
+          newCount > 0
+            ? { type: 'badge', tone: 'brand', text: `+${newCount} new` }
+            : { type: 'text', text: 'No new this week' },
+        footer: { type: 'text', text: 'On your posts' },
+      }
+    }
     return stat
   })
 }
 
 export function DashboardStats() {
   const { posts, pagination } = useMyPosts({ page: 1, limit: 50 })
-  const stats = buildStats(posts, pagination)
+  const { total: commentTotal, newCount } = useRecentComments(1)
+  const stats = buildStats(posts, pagination, { commentTotal, newCount })
 
   return (
     <div className="grid grid-cols-1 gap-4 pb-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -85,7 +98,9 @@ export function DashboardStats() {
                 {stat.meta.text}
               </span>
             ) : (
-              <span className={`font-meta-sm text-meta-sm ${META_TONE[stat.meta?.tone] || 'text-text-muted'} ${stat.meta?.tone === 'warning' ? 'font-medium' : ''}`}>
+              <span
+                className={`font-meta-sm text-meta-sm ${META_TONE[stat.meta?.tone] || 'text-text-muted'} ${stat.meta?.tone === 'warning' ? 'font-medium' : ''}`}
+              >
                 {stat.meta?.text}
               </span>
             )}

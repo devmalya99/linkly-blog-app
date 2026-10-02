@@ -1,0 +1,4 @@
+export const FOLLOW_LIMITS = {
+  SUGGESTIONS_DEFAULT: 3,
+  SUGGESTIONS_MAX: 10,
+}

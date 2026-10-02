@@ -12,27 +12,26 @@ function withQuery(path, params = {}) {
   return query ? `${path}?${query}` : path
 }
 
-export function getComments(postId, params = {}) {
-  return apiRequest(withQuery(`/posts/${postId}/comments`, params), {
+export function getMyFollows() {
+  return apiRequest('/follows/me', {
     method: 'GET',
   })
 }
 
-export function getRecentComments(params = {}) {
-  return apiRequest(withQuery('/comments/recent', params), {
+export function getAuthorSuggestions(params = {}) {
+  return apiRequest(withQuery('/follows/suggestions', params), {
     method: 'GET',
   })
 }
 
-export function createComment(postId, content) {
-  return apiRequest(`/posts/${postId}/comments`, {
+export function followAuthor(userId) {
+  return apiRequest(`/follows/${userId}`, {
     method: 'POST',
-    body: { content },
   })
 }
 
-export function deleteComment(commentId) {
-  return apiRequest(`/comments/${commentId}`, {
+export function unfollowAuthor(userId) {
+  return apiRequest(`/follows/${userId}`, {
     method: 'DELETE',
   })
 }

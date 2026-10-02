@@ -5,7 +5,7 @@ export function createCommentMutationOptions(queryClient) {
   return {
     mutationFn: ({ postId, content }) => createComment(postId, content),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: commentsKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: commentsKeys.all })
     },
   }
 }
@@ -14,7 +14,7 @@ export function deleteCommentMutationOptions(queryClient) {
   return {
     mutationFn: (commentId) => deleteComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: commentsKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: commentsKeys.all })
     },
   }
 }
