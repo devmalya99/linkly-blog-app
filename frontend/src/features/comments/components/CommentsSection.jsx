@@ -1,7 +1,7 @@
 import { useAuth } from '../../auth'
 import { COMMENT_COPY } from '../constants/commentsContent'
 import { useComments } from '../hooks/useComments'
-import { canDeleteComment } from '../utils/commentPermissions'
+import { canDeleteComment, canEditComment } from '../utils/commentPermissions'
 import { CommentForm } from './CommentForm'
 import { CommentItem } from './CommentItem'
 import { CommentsPagination } from './CommentsPagination'
@@ -22,6 +22,7 @@ export function CommentsSection({ post }) {
     isSubmitting,
     submitError,
     addComment,
+    editComment,
     removeComment,
   } = useComments(post?.id, { enabled })
 
@@ -65,6 +66,14 @@ export function CommentsSection({ post }) {
     }
   }
 
+  async function handleEdit(commentId, content) {
+    try {
+      await editComment(commentId, content)
+    } catch (err) {
+      throw new Error(err.message || COMMENT_COPY.EDIT_ERROR)
+    }
+  }
+
   return (
     <section
       className="mt-14 border-t border-border-subtle pt-10"
@@ -99,9 +108,11 @@ export function CommentsSection({ post }) {
             {comments.map((comment) => (
               <CommentItem
                 canDelete={canDeleteComment(user, comment, post)}
+                canEdit={canEditComment(user, comment)}
                 comment={comment}
                 key={comment.id}
                 onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             ))}
           </ul>

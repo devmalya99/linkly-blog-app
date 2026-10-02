@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Alert } from '@ninna-ui/feedback'
 import { Button } from '../../components/common/Button'
-import { FacebookIcon } from '../../components/common/FacebookIcon'
 import { GoogleIcon } from '../../components/common/GoogleIcon'
 import { AuthFooter } from '../../components/layout/AuthFooter'
 import { getGoogleAuthUrl, useAuth } from '../../features/auth'
@@ -214,9 +213,6 @@ export function Login() {
                 type="button"
               >
                 Continue with Google
-              </Button>
-              <Button appearance="social" disabled fullWidth leftIcon={<FacebookIcon />}>
-                Continue with Facebook
               </Button>
             </div>
 

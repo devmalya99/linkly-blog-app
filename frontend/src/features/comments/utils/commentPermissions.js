@@ -1,3 +1,11 @@
+export function canEditComment(user, comment) {
+  if (!user || !comment) return false
+
+  const commentAuthorId =
+    comment.author && typeof comment.author === 'object' ? comment.author.id : comment.author
+  return Boolean(commentAuthorId && String(commentAuthorId) === String(user.id))
+}
+
 export function canDeleteComment(user, comment, post) {
   if (!user || !comment) return false
   if (user.role === 'admin') return true

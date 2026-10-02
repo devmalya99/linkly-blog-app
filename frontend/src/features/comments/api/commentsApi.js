@@ -31,6 +31,13 @@ export function createComment(postId, content) {
   })
 }
 
+export function updateComment(commentId, content) {
+  return apiRequest(`/comments/${commentId}`, {
+    method: 'PATCH',
+    body: { content },
+  })
+}
+
 export function deleteComment(commentId) {
   return apiRequest(`/comments/${commentId}`, {
     method: 'DELETE',

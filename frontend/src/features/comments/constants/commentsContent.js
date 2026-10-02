@@ -16,6 +16,11 @@ export const COMMENT_COPY = {
   LOADING: 'Loading comments…',
   DELETE_CONFIRM: 'Delete this comment?',
   DELETE_ERROR: 'Unable to delete comment.',
+  EDIT: 'Edit',
+  SAVE: 'Save',
+  SAVING: 'Saving…',
+  CANCEL: 'Cancel',
+  EDIT_ERROR: 'Unable to update comment.',
   CREATE_ERROR: 'Unable to post comment.',
   LOAD_ERROR: 'Unable to load comments.',
 }

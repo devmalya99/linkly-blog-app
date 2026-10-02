@@ -5,6 +5,7 @@ import {
   commentsQueryOptions,
   createCommentMutationOptions,
   deleteCommentMutationOptions,
+  updateCommentMutationOptions,
 } from '../queries'
 
 export function useComments(postId, { enabled = true, limit = COMMENT_LIMITS.PAGE_SIZE } = {}) {
@@ -29,12 +30,18 @@ export function useComments(postId, { enabled = true, limit = COMMENT_LIMITS.PAG
   })
 
   const createMutation = useMutation(createCommentMutationOptions(queryClient))
+  const updateMutation = useMutation(updateCommentMutationOptions(queryClient))
   const deleteMutation = useMutation(deleteCommentMutationOptions(queryClient))
 
   async function addComment(content) {
     if (!postId) return null
     const response = await createMutation.mutateAsync({ postId, content })
     setPage(1)
+    return response.data
+  }
+
+  async function editComment(commentId, content) {
+    const response = await updateMutation.mutateAsync({ commentId, content })
     return response.data
   }
 
@@ -60,6 +67,7 @@ export function useComments(postId, { enabled = true, limit = COMMENT_LIMITS.PAG
     isSubmitting: createMutation.isPending,
     submitError: createMutation.error?.message || '',
     addComment,
+    editComment,
     removeComment,
     reload: () => query.refetch(),
   }

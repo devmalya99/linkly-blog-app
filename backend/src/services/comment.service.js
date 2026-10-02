@@ -22,10 +22,19 @@ function getPostAuthorId(post) {
   return String(post.author?._id ?? post.author)
 }
 
+function getCommentAuthorId(comment) {
+  return String(comment.author?._id ?? comment.author)
+}
+
+function canEditComment(user, comment) {
+  if (!user) return false
+  return getCommentAuthorId(comment) === String(user.id)
+}
+
 function canDeleteComment(user, comment, post) {
   if (!user) return false
   if (user.role === ROLES.ADMIN) return true
-  if (String(comment.author?._id ?? comment.author) === String(user.id)) return true
+  if (getCommentAuthorId(comment) === String(user.id)) return true
   if (getPostAuthorId(post) === String(user.id)) return true
   return false
 }
@@ -130,8 +139,22 @@ export const commentService = {
     return sanitizeComment(comment)
   },
 
-  async updateComment() {
-    throw new AppError('updateComment is not implemented yet', HTTP_STATUS.NOT_IMPLEMENTED)
+  async updateComment(user, commentId, payload) {
+    const comment = await Comment.findById(commentId)
+
+    if (!comment) {
+      throw new AppError('Comment not found', HTTP_STATUS.NOT_FOUND)
+    }
+
+    if (!canEditComment(user, comment)) {
+      throw new AppError('You do not have permission to edit this comment', HTTP_STATUS.FORBIDDEN)
+    }
+
+    comment.content = payload.content
+    await comment.save()
+    await comment.populate('author', AUTHOR_SELECT)
+
+    return sanitizeComment(comment)
   },
 
   async deleteComment(user, commentId) {
