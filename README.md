@@ -10,7 +10,7 @@ A full-stack blog platform (MERN-style) with auth, posts, comments, follows/feed
 
 ---
 
-## Live deployments
+## Live deployments & design
 
 | Resource | URL |
 | --- | --- |
@@ -18,6 +18,7 @@ A full-stack blog platform (MERN-style) with auth, posts, comments, follows/feed
 | **Backend API** | https://inkly-api-mr5h.onrender.com |
 | **API health** | https://inkly-api-mr5h.onrender.com/api/v1/health |
 | **API via Netlify proxy** | https://inkly-blog-app.netlify.app/api/v1/health |
+| **Figma design** | [Inkly Blog app (FigJam)](https://www.figma.com/board/vVINPXlaDIUHrg006Fayfq/Inkly-Blog-app?node-id=0-1&p=f&t=9CShxXtWEly6fL6a-0) |
 
 Production frontend calls `/api/v1` on the Netlify origin. Netlify rewrites `/api/*` to the Render service so auth cookies stay first-party.
 
